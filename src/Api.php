@@ -39,7 +39,7 @@ final class Api
                 $body=$this->body();$this->keys($body,['delivery_method','demo_acknowledged']);
                 if(!in_array($body['delivery_method']??null,['demo_pickup','demo_shipping'],true)||($body['demo_acknowledged']??null)!==true)throw new ApiError(422,'validation_error','Choose a demo delivery method and acknowledge that no real order is placed.');
                 $idempotency=$_SERVER['HTTP_IDEMPOTENCY_KEY']??'';
-                if(!preg_match('/^[a-zA-Z0-9_-]{8,80}$/D',$idempotency))throw new ApiError(422,'validation_error','Supply an Idempotency-Key header with 8вЂ“80 letters, digits, underscores or hyphens.');
+                if(!preg_match('/^[a-zA-Z0-9_-]{8,80}$/D',$idempotency))throw new ApiError(422,'validation_error','Supply an Idempotency-Key header with 8-80 letters, digits, underscores or hyphens.');
                 $fingerprint=hash('sha256',json_encode(['delivery_method'=>$body['delivery_method'],'demo_acknowledged'=>true],JSON_THROW_ON_ERROR));
                 if(isset($state['idempotency'][$idempotency])) {
                     $previous=$state['idempotency'][$idempotency];
