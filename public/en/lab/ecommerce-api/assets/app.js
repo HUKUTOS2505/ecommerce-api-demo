@@ -22,7 +22,7 @@ async function loadCatalog(){
   if(sequence!==loadSequence)return;
   meta=result.meta;
   $('#catalog-count').textContent=`${meta.total} demo ${meta.total===1?'product':'products'} · prices in USD`;
-  $('#page-label').textContent=`Page ${meta.total_pages?meta.page:0} of ${meta.total_pages}`;
+  $('#page-label').textContent=meta.total_pages?`Page ${meta.page} of ${meta.total_pages}`:'No results';
   $('#previous').disabled=page<=1;$('#next').disabled=page>=meta.total_pages;
   $('#catalog').innerHTML=result.data.length?result.data.map(p=>`<article class="product-card"><img src="${escape(p.image)}" alt="Original illustration of ${escape(p.name)}" width="400" height="300"><div class="product-content"><p class="category">${escape(p.category)}</p><h3>${escape(p.name)}</h3><p class="variant-count">${p.variants.length} variants · ${p.total_stock} units in stock</p><div class="product-bottom"><span class="price">From ${money(p.price_from_cents)}</span><button class="button small" data-product="${p.id}" aria-label="View ${escape(p.name)}">View Product</button></div></div></article>`).join(''):'<p>No products match your filters.</p>';
 }
